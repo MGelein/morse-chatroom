@@ -19,7 +19,7 @@ Called once during setup of the sketch
 **/
 void setup(){
   //This application is meant to run fullscreen
-  fullScreen();
+  fullScreen(P3D);
   
   //Loads the morse-code definition file
   loadCode();
@@ -29,10 +29,11 @@ void setup(){
   
   //Open the first available serial port at the baud rate that was specified in the arduino
   //serial = new Serial(this, Serial.list()[0], 115200);
+  frameRate(30);
 }
 
 /**
-Runs at the specified framerate. This should be 60fps,
+Runs at the specified framerate. This should be 30fps,
 if the computer can keep up.
 **/
 void draw(){
