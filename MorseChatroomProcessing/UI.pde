@@ -14,6 +14,9 @@ class UI {
   PImage v_div;
   //The typewriter font
   PFont typewriter;
+  
+  //List with all the messages that have been sent back and forth
+  ArrayList<Message> messages = new ArrayList<Message>();
 
   /**
    Constructor loads any necessary elements for the screen display
@@ -29,6 +32,9 @@ class UI {
     typewriter = createFont("TravelingTypewriter.otf", 64);
     textFont(typewriter);
     textAlign(CENTER);
+    //Add a dummy message
+    addMessage("Oldest Message", true);
+    addMessage("Newer Message", false);
   }
 
   /**
@@ -37,17 +43,56 @@ class UI {
    components
    **/
   void draw() {
-    tint(255);
     //Draw the background image over any other parts
     image(bg, 0, 0);
     //Draw the contact list
     drawContacts();
+    //Draw the messages
+    drawMessages();
+    //Draw the current typing buffer
+    drawTypeBuffer();
     //Now draw the vertical divider
-    tint(200);
     image(v_div, 0, 0);
   }
-
-
+  
+  /**
+  Draws all the letters we've type so far
+  **/
+  void drawTypeBuffer(){
+    //Turn it into a builder then into a single String
+    StringBuilder bldr = new StringBuilder();
+    for(String l : lettersSent) bldr.append(l);
+    String msg = bldr.toString();
+    //Draw that string into the typing area
+    textSize(48);
+    textAlign(LEFT);
+    fill(0);
+    text(msg, 700, 1000);
+    fill(255);
+    text(msg, 702, 1002);
+  }
+  
+  /**
+  Renders all messages
+  **/
+  void drawMessages(){
+    pushMatrix();
+    //Translate to the message area
+    translate(640, 800);
+    float yPos = 800;
+    //And render all messages
+    for(Message m: messages){
+      pushMatrix();
+      m.draw();
+      popMatrix();
+      float h = - (m.getHeight() + 20);
+      yPos -= h;
+      translate(0, h);
+      //If we go more than a hundred pixels out of screen, don't draw it
+      if(yPos < -100) break;
+    }
+    popMatrix();
+  }
 
   /**
    Draws all the contacts
@@ -55,6 +100,8 @@ class UI {
   void drawContacts() {
     //start a y-pos
     float y = 140;
+    textSize(64);
+    textAlign(CENTER);
     for (String name : contacts) {
       //Background for this contact
       image(contact, 50, y);
@@ -70,5 +117,15 @@ class UI {
     text("Contacts", 250, 65);
     fill(255, 20);
     text("Contacts", 253, 68);
+  }
+  
+  /**
+  Adds a message to the ui
+  **/
+  void addMessage(String msg, boolean fromMe){
+    //Ignore empty messages
+    if(msg.trim().length() < 1) return;
+    //If not empty, add this message to the thingy
+    messages.add(0, new Message(msg, fromMe));
   }
 }

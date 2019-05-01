@@ -42,7 +42,7 @@ void loadCode(){
     //Split on the tab between the two columns
     String[] parts = line.split("\t");
     //Put it into the lookup table
-    String k = parts[0].trim();
+    String k = parts[0];
     String v = parseNotation(parts[1]);
     //Put the values swapped in the hashtable
     lookup.put(v, k);
