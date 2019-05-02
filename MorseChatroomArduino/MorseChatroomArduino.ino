@@ -8,7 +8,7 @@
    and feel that quite easily.
 
    @author  Mees Gelein
-   @version 1.2.13
+   @version 1.2.14
    @license MIT
 */
 
@@ -16,6 +16,8 @@
 #define SND_PIN 2
 //And pin 4 for the receive channel
 #define RCV_PIN 4
+//The pin to echo our own button onto (this is broadcasted onto the network)
+#define ECH_PIN 6
 //Pin 11 for the buzzer
 #define BZR_PIN 11
 
@@ -63,6 +65,7 @@ void setup() {
   pinMode(SND_PIN, INPUT_PULLUP);
   pinMode(RCV_PIN, INPUT_PULLUP);
   pinMode(BZR_PIN, OUTPUT);
+  pinMode(ECH_PIN, OUTPUT);
 }
 
 /**
@@ -72,7 +75,8 @@ void loop() {
   /**
      CHECK THE SEND CHANNEL
   */
-
+  //Make the echo pin always mirror the send pin
+  digitalWrite(ECH_PIN, digitalRead(SND_PIN));
   //Set the state to see if it is pulled low now
   state = digitalRead(SND_PIN) == LOW;
   //Depending on the state, make a piezo sound
