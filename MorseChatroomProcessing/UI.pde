@@ -32,9 +32,6 @@ class UI {
     typewriter = createFont("TravelingTypewriter.otf", 64);
     textFont(typewriter);
     textAlign(CENTER);
-    //Add a dummy message
-    addMessage("Oldest Message", true);
-    addMessage("Newer Message", false);
   }
 
   /**
