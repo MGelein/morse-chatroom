@@ -25,6 +25,7 @@ Called once during setup of the sketch
 void setup(){
   //This application is meant to run fullscreen
   fullScreen(P3D);
+  //size(640, 480);
   //Loads the morse-code definition file
   loadCode();
   
@@ -68,6 +69,7 @@ void handleSerial(){
   while(serial.available() > 0){
     //Reads a single character
     char c = serial.readChar();
+    print(c);
     
     //Through upper/lower case determine channel of receive / send
     if(Character.isUpperCase(c)){
@@ -107,7 +109,7 @@ void handleSerial(){
            ui.addMessage(msg.toString(), false);
            //And empty the received letters buffer
            lettersReceived.clear();
-        }else lettersSent.add(letter);
+        }else lettersReceived.add(letter);
         rcvBuffer = new StringBuilder();
       }
     }
